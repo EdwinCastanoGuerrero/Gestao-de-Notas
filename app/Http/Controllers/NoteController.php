@@ -18,7 +18,7 @@ class NoteController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->query('per_page', 15); // Default: 15 itens por página
+        $perPage = $request->query('per_page', 15); 
         $notas = Note::paginate($perPage);
         return response()->json($notas->toResourceCollection(), 200);
     }
@@ -28,7 +28,7 @@ class NoteController extends Controller
      */
     public function store(StoreNoteRequest $request)
     {
-        $data = $request->validated(); //validated() valida os dados via json
+        $data = $request->validated(); 
         try {
             $note = new Note();
             $note->fill($data);
