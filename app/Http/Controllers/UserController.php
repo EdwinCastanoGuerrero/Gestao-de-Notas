@@ -2,77 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\DTOs\UserDTO;
-use App\Exceptions\UserEmailAlreadyExistsException;
-use App\Exceptions\UserNotFoundException;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\UserResource;
-use App\Services\UserService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function __construct(
-        private UserService $service
-    ) {}
-
-    public function index(): AnonymousResourceCollection
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $users = $this->service->getAllUsers();
-        return UserResource::collection($users);
+        return User::all();
     }
 
-    public function store(StoreUserRequest $request): JsonResponse
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
-        try {
-            $dto = UserDTO::fromArray($request->validated());
-            $user = $this->service->createUser($dto);
-
-            return response()->json([
-                'message' => 'Usuário criado com sucesso!',
-                'data' => new UserResource($user),
-            ], 201);
-        } catch (UserEmailAlreadyExistsException $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
-        }
+        //
     }
 
-    public function show(string $id): JsonResponse
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        try {
-            $user = $this->service->getUserById((int) $id);
-            return response()->json(['data' => new UserResource($user)]);
-        } catch (UserNotFoundException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        }
+        //
     }
 
-    public function update(UpdateUserRequest $request, string $id): JsonResponse
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
-        try {
-            $dto = UserDTO::fromArray($request->validated());
-            $user = $this->service->updateUser((int) $id, $dto);
-
-            return response()->json([
-                'message' => 'Usuário atualizado com sucesso!',
-                'data' => new UserResource($user),
-            ]);
-        } catch (UserNotFoundException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        } catch (UserEmailAlreadyExistsException $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
-        }
+        //
     }
 
-    public function destroy(string $id): JsonResponse
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
-        try {
-            $this->service->deleteUser((int) $id);
-            return response()->json(['message' => 'Usuário deletado com sucesso!']);
-        } catch (UserNotFoundException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        }
+        //
     }
 }
