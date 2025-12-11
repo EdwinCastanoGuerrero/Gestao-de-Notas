@@ -33,7 +33,7 @@ class NoteController extends Controller
             $note = new Note();
             $note->fill($data);
             $note->save();
-            return response()->json($note, 201);
+            return response()->json($note->toResource(), 201);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Falha ao criar a nota'], 400);
         }
@@ -46,7 +46,7 @@ class NoteController extends Controller
     {
         try {
             $note = Note::findOrFail($id);
-            return response()->json($note, 200);
+            return response()->json($note->toResource(), 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Nota não encontrada'], 404);
         }
@@ -61,7 +61,7 @@ class NoteController extends Controller
         try {
             $note->fill($data);
             $note->save();
-            return response()->json($note, 200);
+            return response()->json($note->toResource(), 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Falha ao atualizar a nota'], 400);
         }
