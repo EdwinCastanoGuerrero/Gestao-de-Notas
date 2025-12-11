@@ -14,6 +14,6 @@ class NoteColletion extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return parent::toArray($request);//
     }
 }
