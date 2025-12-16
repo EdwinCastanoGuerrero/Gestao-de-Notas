@@ -24,5 +24,6 @@ return new class extends Migration
         Schema::table('notes', function (Blueprint $table) {
             $table->dropIndex('notes_user_id_index');
         });
+        
     }
 };
